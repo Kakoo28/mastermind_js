@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>MasterMind JS</title>
+        <link rel="stylesheet" href="assets/css/normalize.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="game">
+            <div id="mastermind">
+                <div id='secret-line' class="line">
+                    <span class="hole">?</span>
+                    <span class="hole">?</span>
+                    <span class="hole">?</span>
+                    <span class="hole">?</span>
+                </div>
+                <hr>
+
+                <div id="line-generator"></div>
+            </div>
+            <div id="rules">
+                <div class="rule-line"><div class="little-hole"><span class="red-dot"></span></div> = Bonne couleur et bien placée.</div>
+                <div class="rule-line"><div class="little-hole"><span class="white-dot"></span></div> = Bonne couleur, mais mal placée.</div>
+            </div>
+            <div id="color-pallet">
+                <div class="color cb" id="color-red"></div>
+                <div class="color cb" id="color-blue"></div>
+                <div class="color cb" id="color-purple"></div>
+                <div class="color cb" id="color-green"></div>
+                <div class="color cb" id="color-black"></div>
+                <div class="color cb" id="color-yellow"></div>
+                <button id="undoButton">↩</button>
+            </div>
+        </div>
+    <script src="assets/js/mastermind.js"></script>
+    </body>
+</html>
