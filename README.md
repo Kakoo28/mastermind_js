@@ -6,7 +6,7 @@ Le jeu MasterMind en :
 - HTML
 - CSS
 
-## [Play](https://KakooES.github.io/MasterMind-JS/)
+## [Play](https://Kakoo28.github.io/MasterMind-JS/)
 
 ___
 
