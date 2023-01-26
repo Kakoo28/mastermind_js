@@ -1,7 +1,10 @@
 'use strict'
+const LINE_COUNT = 8;
+const COLOR_LIST = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
+
 function start() {
-    // CREATION DES LIGNES
-    for (let i = 1; i <= 10; i++) {
+    // CREATE ALL LINES
+    for (let i = 1; i <= LINE_COUNT; i++) {
         document.getElementById('line-generator').innerHTML += '<div class="line" id="line' + i + '">\n' +
             '                <span class="hole hole1"></span>\n' +
             '                <span class="hole hole2"></span>\n' +
@@ -16,45 +19,43 @@ function start() {
             '            </div>'
     }
 
-    const codeLineHoles = [...document.querySelectorAll('#secret-line .hole')];
-    const colorButtons = [...document.getElementsByClassName('cb')];
-    const undoButton = document.getElementById('undoButton');
+    const SECRET_HOLES = [...document.querySelectorAll('#secret-line .hole')];
+    const COLOR_BUTTONS = [...document.getElementsByClassName('cb')];
+    const UNDO_BUTTONS = document.getElementById('undoButton');
 
-    // GENERATION DE LA COMBINAISON SECRETE
-
-    const colorList = ['red', 'blue', 'purple', 'green', 'black', 'yellow'];
+    // GENERATE THE SECRET COMIBINAISON
 
     let secretCode = [];
     for (let i = 0; i < 4; i++) {
-        let randomColor = colorList[Math.floor(Math.random() * colorList.length)];
+        let randomColor = COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)];
         secretCode.push(randomColor);
     }
 
-    // FONCTION MARQUAGE DES BONNES RÉPONSES ET VERIFICATION DE VICTOIRE
+    // FUNCTION FOR MARK RED / WHITE DOT
     function dotAndCheckWin(indexLine) {
         let userColors = [];
-        [...document.getElementById('line'+indexLine).getElementsByClassName('color')].forEach((c) => {
+        [...document.getElementById('line' + indexLine).getElementsByClassName('color')].forEach((c) => {
             userColors.push([...c.classList][1]); // AJOUT DE LA COULEUR (red, blue,..) DANS LE TABLEAU userColors
         });
 
-        // VERIFICATION DES BONNES COULEURS A LA BONNE PLACE
+        // CHECKING IF THE COLOR IS IN THE CORRECT POSITION
         let tempSCode = [...secretCode];
         let dotIndex = 1;
         for (let i = 0; i < 4; i++) {
             if (userColors[i] === tempSCode[i]) {
-                document.querySelector('#line'+indexLine + ' .little-hole'+dotIndex).innerHTML = '<span class="red-dot"></span>';
+                document.querySelector('#line' + indexLine + ' .little-hole' + dotIndex).innerHTML = '<span class="red-dot"></span>';
                 tempSCode[i] = '';
                 userColors[i] = '';
                 dotIndex++;
             }
         }
 
-        // VERIFICATION DES BONNES COULEURS A LA MAUVAISE PLACE
+        // CHECKING FOR COLORS WHO'S NOT IN THE CORRECT POSITION
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 if (i !== j) {              // VERIFICATION POUR TOUT LES ELEMENTS MIS A LA MAUVAISE PLACE
                     if (userColors[i] === tempSCode[j] && userColors[i] !== '') {
-                        document.querySelector('#line'+indexLine + ' .little-hole'+dotIndex).innerHTML = '<span class="white-dot"></span>';
+                        document.querySelector('#line' + indexLine + ' .little-hole' + dotIndex).innerHTML = '<span class="white-dot"></span>';
                         userColors[i] = '';
                         tempSCode[j] = '';
                         dotIndex++;
@@ -65,11 +66,11 @@ function start() {
         }
         dotIndex = 1;
 
-        // VERIFICATION DE VICTOIRE
-        const checkHoles = [...document.querySelectorAll('#checker'+lineIndex + ' .little-hole span')];
-        if (checkHoles.length === 4) {
+        // WIN CHECKER
+        const CHECK_HOLES = [...document.querySelectorAll('#checker' + lineIndex + ' .little-hole span')];
+        if (CHECK_HOLES.length === 4) {
             for (let i = 0; i < 4; i++) {
-                if (checkHoles[i].className !== 'red-dot') {
+                if (CHECK_HOLES[i].className !== 'red-dot') {
                     return false;
                 }
             }
@@ -79,34 +80,38 @@ function start() {
         return true;
     }
 
-    // FONCTION REVEAL DE LA COMBINAISON
+    // REAVEAL FUNCTION
     function reveal() {
         for (let i = 0; i < 4; i++) {
-            codeLineHoles[i].innerHTML = '<div class="color ' + secretCode[i] + '">';
+            SECRET_HOLES[i].innerHTML = '<div class="color ' + secretCode[i] + '">';
         }
+        setTimeout(() => {
+            document.location.href = './index.html';
+        }, 5000);
     }
 
-    // FONCTION PRINCIPAL (QUAND UNE COULEUR EST CLIQUÉE)
+    // MAIN FUNCTION (WHEN A COLOR IS CLICKED)
     let lineIndex = 1;
     let holeIndex = 1;
     document.querySelector('#line1 .hole1').style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+
     function clickColorButton(c) {
 
         let color = c.target.id.split('-')[1];
-        let hole = document.querySelector('#line'+lineIndex + ' .hole'+holeIndex);
-        hole.innerHTML = '<div class="color '+color+'"></div>';
+        let hole = document.querySelector('#line' + lineIndex + ' .hole' + holeIndex);
+        hole.innerHTML = '<div class="color ' + color + '"></div>';
         holeIndex++;
         if (holeIndex > 4) {
-            if (lineIndex !== 10) {
-                document.querySelector('#line'+(lineIndex+1)+' .hole1').style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+            if (lineIndex !== LINE_COUNT) {
+                document.querySelector('#line' + (lineIndex + 1) + ' .hole1').style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
             }
             let isWin = dotAndCheckWin(lineIndex);
             holeIndex = 1;
             lineIndex++;
 
-            // VICTOIRE / DÉFAITE
-            if (lineIndex > 10 && isWin === false) {
-                setTimeout(()=> {
+            // WIN / LOOSE
+            if (lineIndex > LINE_COUNT && isWin === false) {
+                setTimeout(() => {
                     document.getElementById('line-generator').innerHTML = '<h3 class="loose">Tu as perdu</h3>';
                     reveal();
                 }, 1000)
@@ -117,22 +122,24 @@ function start() {
                 }, 500);
             }
         } else {
-            document.querySelector('#line'+lineIndex + ' .hole'+holeIndex).style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
         }
     }
 
-    // FONCTION UNDO BUTTON
+    // UNDO BUTTON FUNCTION
     function clickUndoButton() {
         if (holeIndex !== 1) {
-            let lastHole = document.querySelector('#line'+lineIndex + ' .hole'+(holeIndex-1));
-            document.querySelector('#line'+lineIndex + ' .hole'+holeIndex).style.backgroundColor = 'rgb(161, 161, 161)';
+            let lastHole = document.querySelector('#line' + lineIndex + ' .hole' + (holeIndex - 1));
+            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).style.backgroundColor = 'rgb(161, 161, 161)';
             lastHole.innerHTML = '';
             holeIndex--;
         }
     }
 
-    colorButtons.forEach((c) => {
+    COLOR_BUTTONS.forEach((c) => {
         c.addEventListener('click', clickColorButton);
     })
-    undoButton.addEventListener('click', clickUndoButton);
-} start();
+    UNDO_BUTTONS.addEventListener('click', clickUndoButton);
+}
+
+start();
