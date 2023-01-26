@@ -15,7 +15,7 @@ No installation is required to play the game. Simply open the index.html file
 2. Click on the colored pegs on the right side of the screen to select the colors for your guess.
 
 3. Once you have selected 4 colors, the game will then give you feedback on your guess by placing red and white pegs on
-   the board. A black peg means that one of your colors is in the correct position, and a white peg means that one of
+   the board. A red peg means that one of your colors is in the correct position, and a white peg means that one of
    your colors is in the code, but in the wrong position. It is not possible to know which color corresponds to the
    indicator.
 
