@@ -7,14 +7,17 @@ body {
     font-family: 'Lato', sans-serif;
     background-color: rgb(50, 50, 50);
     color: white;
+    margin: 0;
 }
 
 #game {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 25vw;
     display: flex;
     align-items: flex-end;
-    margin: 0 auto;
 }
 
 #rules {
