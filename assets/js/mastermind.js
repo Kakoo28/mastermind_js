@@ -23,7 +23,7 @@ function start() {
     const COLOR_BUTTONS = [...document.getElementsByClassName('cb')];
     const UNDO_BUTTONS = document.getElementById('undoButton');
 
-    // GENERATE THE SECRET COMIBINAISON
+    // GENERATE THE SECRET COMBINATION
 
     let secretCode = [];
     for (let i = 0; i < 4; i++) {
@@ -80,7 +80,7 @@ function start() {
         return true;
     }
 
-    // REAVEAL FUNCTION
+    // REVEAL FUNCTION
     function reveal() {
         for (let i = 0; i < 4; i++) {
             SECRET_HOLES[i].innerHTML = '<div class="color ' + secretCode[i] + '">';
@@ -93,17 +93,18 @@ function start() {
     // MAIN FUNCTION (WHEN A COLOR IS CLICKED)
     let lineIndex = 1;
     let holeIndex = 1;
-    document.querySelector('#line1 .hole1').style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+    document.querySelector('#line1 .hole1').classList.add('active-hole');
 
     function clickColorButton(c) {
 
         let color = c.target.id.split('-')[1];
         let hole = document.querySelector('#line' + lineIndex + ' .hole' + holeIndex);
+        hole.classList.remove('active-hole')
         hole.innerHTML = '<div class="color ' + color + '"></div>';
         holeIndex++;
         if (holeIndex > 4) {
             if (lineIndex !== LINE_COUNT) {
-                document.querySelector('#line' + (lineIndex + 1) + ' .hole1').style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+                document.querySelector('#line' + (lineIndex + 1) + ' .hole1').classList.add('active-hole');
             }
             let isWin = dotAndCheckWin(lineIndex);
             holeIndex = 1;
@@ -112,17 +113,21 @@ function start() {
             // WIN / LOOSE
             if (lineIndex > LINE_COUNT && isWin === false) {
                 setTimeout(() => {
+                    document.getElementById("rules").style.display = 'none';
+                    document.getElementById("color-pallet").style.display = 'none';
                     document.getElementById('line-generator').innerHTML = '<h3 class="loose">Tu as perdu</h3>';
                     reveal();
-                }, 1000)
+                }, 1000);
             } else if (isWin === true) {
                 setTimeout(() => {
+                    document.getElementById("rules").style.display = 'none';
+                    document.getElementById("color-pallet").style.display = 'none';
                     document.getElementById('line-generator').innerHTML = '<h3 class="win">Tu as gagné</h3>';
                     reveal();
                 }, 500);
             }
         } else {
-            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).style.backgroundColor = 'rgba(230, 230, 230, 0.5)';
+            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).classList.add("active-hole")
         }
     }
 
@@ -130,9 +135,10 @@ function start() {
     function clickUndoButton() {
         if (holeIndex !== 1) {
             let lastHole = document.querySelector('#line' + lineIndex + ' .hole' + (holeIndex - 1));
-            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).style.backgroundColor = 'rgb(161, 161, 161)';
             lastHole.innerHTML = '';
+            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).classList.remove('active-hole');
             holeIndex--;
+            document.querySelector('#line' + lineIndex + ' .hole' + holeIndex).classList.add('active-hole');
         }
     }
 
