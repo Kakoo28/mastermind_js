@@ -115,14 +115,14 @@ function start() {
                 setTimeout(() => {
                     document.getElementById("rules").style.display = 'none';
                     document.getElementById("color-pallet").style.display = 'none';
-                    document.getElementById('line-generator').innerHTML = '<h3 class="loose">Tu as perdu</h3>';
+                    document.getElementById('line-generator').innerHTML = '<h3 class="loose">You lost</h3>';
                     reveal();
                 }, 1000);
             } else if (isWin === true) {
                 setTimeout(() => {
                     document.getElementById("rules").style.display = 'none';
                     document.getElementById("color-pallet").style.display = 'none';
-                    document.getElementById('line-generator').innerHTML = '<h3 class="win">Tu as gagné</h3>';
+                    document.getElementById('line-generator').innerHTML = '<h3 class="win">You won</h3>';
                     reveal();
                 }, 500);
             }
